@@ -2,6 +2,7 @@
 
 use Modules\ModuleServiceProvider;
 use Illuminate\Support\Facades\Facade;
+use Yajra\DataTables\DataTablesServiceProvider;
 
 return [
 
@@ -196,8 +197,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        ModuleServiceProvider::class
-
+        ModuleServiceProvider::class,
+        DataTablesServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
     ],
 
     /*

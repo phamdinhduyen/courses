@@ -2,15 +2,13 @@
 namespace Modules;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
-use Modules\User\src\Commands\TestCommand;
-use Modules\User\src\Http\Middlewares\DemoMiddleware;
 
 class ModuleServiceProvider extends ServiceProvider{
     private $middlewares = [
-        'demo' => DemoMiddleware::class
+        // 'demo' => DemoMiddleware::class
     ];
     private $commands = [
-        TestCommand::class
+        // TestCommand::class
     ];
     public function boot(){
         $modules = $this->getModules();
@@ -23,14 +21,17 @@ class ModuleServiceProvider extends ServiceProvider{
 
     public function register(){
         //Configs
-        $modules = $this->getModules();
-        foreach($modules as $module){
-            $this->registerConfig($module);
-        }
-        //MiddleWares
-        $this->registerMiddlewares();
-        // commands
-        $this->commands($this -> commands);
+        // $modules = $this->getModules();
+        // foreach($modules as $module){
+        //     $this->registerConfig($module);
+        // }
+        // //MiddleWares
+        // $this->registerMiddlewares();
+        // // commands
+        // $this->commands($this -> commands);
+        $this->app->singleton(
+            UserRepository::class
+        );
     }
     private function getModules(){
         $directories =  array_map('basename',File::directories(__DIR__));
