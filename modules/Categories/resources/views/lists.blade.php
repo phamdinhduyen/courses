@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 @section('content')
-    <p><a href="{{ route('admin.users.create') }}" class="btn btn-primary">Thêm mới</a></p>
+    <p><a href="{{ route('admin.categories.create') }}" class="btn btn-primary">Thêm mới</a></p>
     @if (session('msg'))
         <div class="alert alert-success">{{ session('msg') }}</div>
     @endif
@@ -8,8 +8,7 @@
         <thead>
             <tr>
                 <th>Tên</th>
-                <th>Email</th>
-                <th>Nhóm</th>
+                <th>Link</th>
                 <th>Thời gian</th>
                 <th>Sửa</th>
                 <th>Xóa</th>
@@ -18,8 +17,7 @@
         <tfoot>
             <tr>
                 <th>Tên</th>
-                <th>Email</th>
-                <th>Nhóm</th>
+                <th>Link</th>
                 <th>Thời gian</th>
                 <th>Sửa</th>
                 <th>Xóa</th>
@@ -32,16 +30,14 @@
     <script>
         new DataTable("#datatable", {
             processing: true,
+            pageLength: 2,
             serverSide: true,
-            ajax: "{{ route('admin.users.data') }}",
+            ajax: "{{ route('admin.categories.data') }}",
             "columns": [{
                     data: "name"
                 },
                 {
-                    data: "email"
-                },
-                {
-                    data: "group_id"
+                    data: "link"
                 },
                 {
                     data: "created_at"

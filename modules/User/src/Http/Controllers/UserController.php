@@ -25,7 +25,7 @@ class UserController extends Controller
                 return '<a href="'.route('admin.users.edit', $user->id).'" class="btn btn-warning">Sửa</a> ';
             })
             ->addColumn('delete', function ($user) {
-                return '<a href="#" class="btn btn-danger">Xóa</a>';
+                return '<a href="'.route('admin.users.delete', $user->id).'" class="btn btn-danger delete-action">Xóa</a>';
             })
             ->editColumn('created_at', function ($user) {
                 return Carbon::parse($user->created_at)->format('d/m/y H:i:s');
@@ -65,6 +65,10 @@ class UserController extends Controller
         $this->userRepository->update($id,$data);
         return back()->with('msg', __('user::messages.update.success'));
         
+    }
+    public function delete($id){
+         $this->userRepository->delete($id);
+        return back()->with('msg', __('user::messages.delete.success'));
     }
 
 }

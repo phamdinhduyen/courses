@@ -58,7 +58,7 @@
             </div>
             <div>
                 <button type="submit" class="btn btn-primary">Lưu lại</button>
-                <button type="submit" class="btn btn-warning">Quay lại</button>
+                <a href="{{ route('admin.users.index') }}" type="submit" class="btn btn-warning">Quay lại</a>
             </div>
         </div>
         @csrf
