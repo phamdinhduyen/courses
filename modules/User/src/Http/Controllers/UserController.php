@@ -3,7 +3,6 @@ namespace Modules\User\src\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Yajra\DataTables\Facades\DataTables;
-use Modules\User\src\Http\Request\UserRequests;
 use Modules\User\src\Http\Requests\UserRequest;
 use Modules\User\src\Repositories\UserRepository;
 
