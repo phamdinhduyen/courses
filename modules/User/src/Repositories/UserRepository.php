@@ -16,7 +16,7 @@ public function getUsers($limit){
     return $this->model->paginate($limit);
 }
 public function getAllUsers(){
-    return $this->model->select(['id','name','email','group_id','created_at'])->latest();
+    return $this->model->leftJoin('group_user', 'group_user.id', '=', 'users.group_id')->select(['users.id','users.name','users.email','group_user.name as groupName','users.created_at' ])->latest();
 }
 
 public function setPassword($password, $id){

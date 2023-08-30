@@ -41,7 +41,7 @@
                     data: "email"
                 },
                 {
-                    data: "group_id"
+                    data: "groupName"
                 },
                 {
                     data: "created_at"

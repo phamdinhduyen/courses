@@ -25,6 +25,7 @@ class UserController extends Controller
 
         public function data(){
         $users = $this->userRepository->getAllUsers();
+        // dd( $users);
         return DataTables::of($users)
             ->addColumn('edit', function ($user) {
                 return '<a href="'.route('admin.users.edit', $user->id).'" class="btn btn-warning">Sửa</a> ';

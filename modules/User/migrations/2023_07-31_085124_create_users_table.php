@@ -17,7 +17,7 @@ return new class extends Migration
             $table->increments('id');
             $table->string('name', 200);
             $table->string('email')->unique();
-            $table->integer('group_id')->unique();
+            $table->integer('group_id');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
