@@ -2,14 +2,52 @@
 namespace Modules;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
+use Modules\User\src\Repositories\UserRepository;
+use Modules\Courses\src\Repositories\CoursesRepository;
+use Modules\Teacher\src\Repositories\TeacherRepository;
+use Modules\User\src\Repositories\UserRepositoryInterface;
+use Modules\GroupUser\src\Repositories\GroupUserRepository;
+use Modules\Categories\src\Repositories\CategoriesRepository;
+use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
+use Modules\Teacher\src\Repositories\TeacherRepositoryInterface;
+use Modules\GroupUser\src\Repositories\GroupUserRepositoryInterface;
+use Modules\Categories\src\Repositories\CategoriesRepositoryInterface;
 
 class ModuleServiceProvider extends ServiceProvider{
     private $middlewares = [
-        //
+        // 'demo' => DemoMiddleware::class
     ];
     private $commands = [
-        // 
+        // TestCommand::class
     ];
+
+    public function bindingRepository(){
+        // user repository
+        $this->app->singleton(
+            UserRepositoryInterface::class,
+            UserRepository::class
+        );
+        // Categories repositories
+        $this->app->singleton(
+            CategoriesRepositoryInterface::class,
+            CategoriesRepository::class
+        );
+        // Courses repositories
+        $this->app->singleton(
+            CoursesRepositoryInterface::class,
+            CoursesRepository::class
+        );
+        //Teacher repositories
+        $this->app->singleton(
+            TeacherRepositoryInterface::class,
+            TeacherRepository::class
+        );
+         //GroupUser repositories
+        $this->app->singleton(
+            GroupUserRepositoryInterface::class,
+            GroupUserRepository::class
+        );
+    }
     public function boot(){
         $modules = $this->getModules();
         if(!empty($modules)){
@@ -20,9 +58,17 @@ class ModuleServiceProvider extends ServiceProvider{
     }
 
     public function register(){
-        $this->app->singleton(
-            UserRepository::class
-        );
+        // Configs
+        $modules = $this->getModules();
+        foreach($modules as $module){
+            $this->registerConfig($module);
+        }
+        //MiddleWares
+        $this->registerMiddlewares();
+        // commands
+        $this->commands($this -> commands);
+        // repository
+        $this->bindingRepository();
     }
     private function getModules(){
         $directories =  array_map('basename',File::directories(__DIR__));

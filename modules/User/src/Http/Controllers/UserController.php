@@ -1,16 +1,22 @@
 <?php 
 namespace Modules\User\src\Http\Controllers;
-use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use App\Http\Controllers\Controller;
+use Modules\GroupUser\src\Repositories\GroupUserRepositoryInterface;
 use Yajra\DataTables\Facades\DataTables;
 use Modules\User\src\Http\Requests\UserRequest;
-use Modules\User\src\Repositories\UserRepository;
+use Modules\User\src\Repositories\UserRepositoryInterface;
+
 
 class UserController extends Controller
 {
     protected $userRepository;
-    public function __construct(UserRepository $userRepository){
+    protected $groupUserRepository;
+    public function __construct(
+    UserRepositoryInterface $userRepository,
+    GroupUserRepositoryInterface $groupUserRepository){
         $this->userRepository = $userRepository;
+        $this->groupUserRepository = $groupUserRepository;
     }
     public function index(){
         $pageTitle = 'Quản lý người dùng';
@@ -34,7 +40,8 @@ class UserController extends Controller
     }
     public function create(){
         $pageTitle = 'Thêm người dùng';
-        return view('user::add', compact('pageTitle'));
+        $groupUser = $this->groupUserRepository->getAllGroupUser();
+        return view('user::add', compact('pageTitle','groupUser'));
     }
 
     public function store(UserRequest $request){
@@ -49,11 +56,12 @@ class UserController extends Controller
 
     public function edit($id){
         $user = $this->userRepository->find($id);
+        $groupUser = $this->groupUserRepository->getAllGroupUser();
         if(!$user) {
             abort(404);
         }
         $pageTitle = 'Chỉnh sửa người dùng';
-        return view('user::edit', compact('pageTitle', 'user'));
+        return view('user::edit', compact('pageTitle', 'user', 'groupUser'));
     }
 
     public function update(UserRequest $request, $id){

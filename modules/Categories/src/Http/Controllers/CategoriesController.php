@@ -6,12 +6,12 @@ use Yajra\DataTables\Facades\DataTables;
 use Modules\Categories\src\Models\Category;
 
 use Modules\Categories\src\Http\Requests\CategoryRequest;
-use Modules\Categories\src\Repositories\CategoriesRepository;
+use Modules\Categories\src\Repositories\CategoriesRepositoryInterface;
 
 class CategoriesController extends Controller
 {
     protected $categoryRepository;
-    public function __construct(CategoriesRepository $categoryRepository){
+    public function __construct(CategoriesRepositoryInterface $categoryRepository){
         $this->categoryRepository = $categoryRepository;
     }
     public function index(){
@@ -35,6 +35,7 @@ class CategoriesController extends Controller
         return $categories;
     }
 
+    
     public function getCategoriesTable($categories, $char='', &$result=[]){
         if(!empty($categories)){
             foreach($categories as $key => $category){
@@ -80,7 +81,7 @@ class CategoriesController extends Controller
         
     }
     public function delete($id){
-         $this->categoryRepository->delete($id);
+        $this->categoryRepository->delete($id);
         return back()->with('msg', __('categories::messages.delete.success'));
     }
 }

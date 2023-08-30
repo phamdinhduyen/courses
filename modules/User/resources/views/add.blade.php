@@ -32,9 +32,15 @@
                     <label for="text">Nhóm</label>
                     <select name="group_id" id=""
                         class="form-select {{ $errors->has('group_id') ? ' is-invalid' : '' }}">
-                        <option value="0">Chọn nhóm</option>
-                        <option value="1">Admin</option>
-                        <option value="2">Giảng viên</option>
+                        <option value="0">Chọn giảng viên</option>
+                        @if ($groupUser)
+                            {
+                            @foreach ($groupUser as $item)
+                                <option value="{{ $item->id }}" {{ old('group_id') == $item->id ? 'selected' : false }}>
+                                    {{ $item->name }}</option>
+                            @endforeach
+                            }
+                        @endif
                     </select>
                     @error('group_id')
                         <div class="invalid-feedback">

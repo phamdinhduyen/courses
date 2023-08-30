@@ -32,12 +32,20 @@
             </div>
             <div class="col-6">
                 <div class="mb-3">
-                    <label for="text">Nhóm</label>
+                    <label for="text">Chọn nhóm</label>
                     <select name="group_id" id=""
                         class="form-select {{ $errors->has('group_id') ? ' is-invalid' : '' }}">
-                        <option value="0">Chọn nhóm</option>
-                        <option value="1">Admin</option>
-                        <option value="2">Giảng viên</option>
+                        <option value="0">Chọn nhóm người dùng</option>
+                        @if ($groupUser)
+                            {
+                            @foreach ($groupUser as $item)
+                                <option value="{{ $item->id }}"
+                                    {{ old('group_id') == $item->id || $user->teacher_id == $item->id ? 'selected' : false }}>
+                                    {{ $item->name }}</option>
+                            @endforeach
+                            }
+                        @endif
+                    </select>
                     </select>
                     @error('group_id')
                         <div class="invalid-feedback">

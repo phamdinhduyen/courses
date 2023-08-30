@@ -22,11 +22,15 @@
                 'title' => 'Người dùng',
                 'name' => 'users',
             ])
+            @include('parts.backend.menu_item', [
+                'title' => 'Nhóm người dùng',
+                'name' => 'group_user',
+            ])
         </div>
 
     </div>
     <div class="sb-sidenav-footer">
         <div class="small">Đăng nhập:</div>
-        {{ Auth::user()->name }}
+        {{-- {{ Auth::user()->name }} --}}
     </div>
 </nav>
