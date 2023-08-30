@@ -81,21 +81,33 @@ window.addEventListener("DOMContentLoaded", (event) => {
     const title = document.querySelector(".title");
     const slug = document.querySelector(".slug");
     let isChangeSlug = false;
-    if (slug.value === "") {
-        title.addEventListener("keyup", (e) => {
-            if (!isChangeSlug) {
-                const titleValue = e.target.value;
+    if (slug) {
+        if (slug.value === "") {
+            title.addEventListener("keyup", (e) => {
+                if (!isChangeSlug) {
+                    const titleValue = e.target.value;
+                    slug.value = getSlug(titleValue);
+                }
+            });
+        }
+
+        slug.addEventListener("change", () => {
+            if (slug.value === "") {
+                const title = document.querySelector(".title");
+                const titleValue = title.value;
                 slug.value = getSlug(titleValue);
             }
+            isChangeSlug = true;
         });
     }
-
-    slug.addEventListener("change", () => {
-        if (slug.value === "") {
-            const title = document.querySelector(".title");
-            const titleValue = title.value;
-            slug.value = getSlug(titleValue);
-        }
-        isChangeSlug = true;
-    });
+    const logoutAction = document.querySelector(".logout-action");
+    const logoutForm = document.querySelector(".logout_form");
+    if (logoutAction && logoutForm) {
+        logoutAction.addEventListener("click", (e) => {
+            e.preventDefault();
+            const action = e.target.href;
+            logoutForm.action = action;
+            logoutForm.submit();
+        });
+    }
 });

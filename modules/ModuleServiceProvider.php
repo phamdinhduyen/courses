@@ -5,10 +5,10 @@ use Illuminate\Support\ServiceProvider;
 
 class ModuleServiceProvider extends ServiceProvider{
     private $middlewares = [
-        // 'demo' => DemoMiddleware::class
+        //
     ];
     private $commands = [
-        // TestCommand::class
+        // 
     ];
     public function boot(){
         $modules = $this->getModules();
@@ -20,15 +20,6 @@ class ModuleServiceProvider extends ServiceProvider{
     }
 
     public function register(){
-        //Configs
-        // $modules = $this->getModules();
-        // foreach($modules as $module){
-        //     $this->registerConfig($module);
-        // }
-        // //MiddleWares
-        // $this->registerMiddlewares();
-        // // commands
-        // $this->commands($this -> commands);
         $this->app->singleton(
             UserRepository::class
         );

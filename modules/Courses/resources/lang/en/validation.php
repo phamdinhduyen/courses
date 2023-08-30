@@ -8,8 +8,14 @@ return [
     'select' => ':attribute bắt buộc phải chọn',
     'attributes' =>[
             'name' => 'Tên',
-            'email' => 'Email',
-            'password' => 'Mật khẩu',
-            'group_id' => 'Nhóm'
+            'slug' => 'Slug',
+            'teacher_id' => 'Giảng viên',
+            'code' => 'Mã khóa học',
+            'thumbnail' => 'Ảnh đại diện',
+            'status' => 'Trạng thái',
+            'is_document' => 'Tài liệu đính kèm',
+            'supports' => 'Hỗ trợ',
+            'detail' => 'Nội dung',
+            'categories' => 'Chuyên mục'
         ]
 ];

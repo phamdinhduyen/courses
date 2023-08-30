@@ -2,12 +2,9 @@
     <footer class="py-4 bg-light mt-auto">
         <div class="container-fluid px-4">
             <div class="d-flex align-items-center justify-content-between small">
-                <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                        <div>
-                            <a href="#">Privacy Policy</a>
-                                &middot;
-                            <a href="#">Terms &amp; Conditions</a>
-                    </div>
+                <div class="text-muted">Copyright &copy; {{ date('Y') }} by <a
+                        href="{{ route('home') }}">{{ env('APP_NAME') }}</a> All rights reserved
+                </div>
             </div>
         </div>
-     </footer>              
+    </footer>

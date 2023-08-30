@@ -33,9 +33,15 @@
                     <label for="text">Giảng Viên</label>
                     <select name="teacher_id" id=""
                         class="form-select {{ $errors->has('teacher_id') ? ' is-invalid' : '' }}">
-                        <option value="0">Chọn nhóm</option>
-                        <option value="1">Văn A</option>
-                        <option value="2">Văn B</option>
+                        <option value="0">Chọn giảng viên</option>
+                        @if ($teacher)
+                            {
+                            @foreach ($teacher as $item)
+                                <option value="{{ $item->id }}"
+                                    {{ old('teacher_id') == $item->id ? 'selected' : false }}>{{ $item->name }}</option>
+                            @endforeach
+                            }
+                        @endif
                     </select>
                     @error('teacher_id')
                         <div class="invalid-feedback">
@@ -48,8 +54,8 @@
                 <div class="mb-3">
                     <label for="text">Mã khóa học</label>
                     <input type="text" name="code"
-                        class="form-control {{ $errors->has('code') ? ' is-invalid' : '' }}" placeholder="Mã khóa học..."
-                        value="">
+                        class="form-control  {{ $errors->has('code') ? ' is-invalid' : '' }}" placeholder="Mã khóa học..."
+                        value="{{ old('code') }}">
                     @error('code')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -88,9 +94,8 @@
                     <label for="text">Tài liệu đính kèm</label>
                     <select name="is_document" id=""
                         class="form-select {{ $errors->has('is_document') ? ' is-invalid' : '' }}">
-                        <option value="0">Chọn nhóm</option>
-                        <option value="1">Không</option>
-                        <option value="2">Có</option>
+                        <option value="0" {{ old('is_document') == 0 ? 'selected' : false }}>Không</option>
+                        <option value="1" {{ old('is_document') == 1 ? 'selected' : false }}>Có</option>
                     </select>
                     @error('is_document')
                         <div class="invalid-feedback">
@@ -104,9 +109,8 @@
                     <label for="text">Trạng thái</label>
                     <select name="status" id=""
                         class="form-select {{ $errors->has('status') ? ' is-invalid' : '' }}">
-                        <option value="0">Chọn nhóm</option>
-                        <option value="1">Chưa ra mắt</option>
-                        <option value="2">Đã ra mắt</option>
+                        <option value="0" {{ old('status') == 0 ? 'selected' : false }}>Chưa ra mắt</option>
+                        <option value="1" {{ old('status') == 0 ? 'selected' : false }}>Đã ra mắt</option>
                     </select>
                     @error('status')
                         <div class="invalid-feedback">
@@ -118,8 +122,8 @@
             <div class="col-12">
                 <div class="mb-3">
                     <label for="text">Hỗ trợ</label>
-                    <textarea name="supports" {{ $errors->has('supports') ? ' is-invalid' : '' }} class="form-control"
-                        placeholder="Hỗ trợ..." value=""></textarea>
+                    <textarea type="text" name="supports" class="form-control {{ $errors->has('supports') ? ' is-invalid' : '' }}"
+                        placeholder="Hỗ trợ..." value="">{{ old('supports') }}</textarea>
                     @error('supports')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -130,8 +134,8 @@
             <div class="col-12">
                 <div class="mb-3">
                     <label for="text">Nội dung</label>
-                    <textarea name="detail" {{ $errors->has('detail') ? ' is-invalid' : '' }} class="form-control"
-                        placeholder="Nội dung..." value=""></textarea>
+                    <textarea type="text" name="detail" class="form-control ckeditor {{ $errors->has('detail') ? ' is-invalid' : '' }}"
+                        placeholder="Hỗ trợ..." value="">{{ old('detail') }}</textarea>
                     @error('detail')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -141,12 +145,25 @@
             </div>
             <div class="col-12">
                 <div class="mb-3">
-                    <div class="row align-items-end">
+                    <label>Chuyên mục</label>
+                    <div class="list_categories">
+                        {{ getCategoriesCheckbox($categories, old('categories')) }}
+                    </div>
+                    @error('categories')
+                        <div class="invalid-feedback d-block">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="mb-3">
+                    <div class="row {{ $errors->has('thumbnail') ? 'align-items-center' : 'align-items-end' }} ">
                         <div class="col-7">
-
                             <label for="text">Ảnh đại diện</label>
-                            <textarea name="thumbnail" {{ $errors->has('thumbnail') ? ' is-invalid' : '' }} class="form-control"
-                                placeholder="Ảnh đại diện..." value=""></textarea>
+                            <input type="text" name="thumbnail"
+                                class="form-control {{ $errors->has('thumbnail') ? ' is-invalid' : '' }}"
+                                placeholder="Ảnh đại diện..." value="{{ old('thumbnail') }}" id="thumbnail">
                             @error('thumbnail')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -154,22 +171,28 @@
                             @enderror
                         </div>
                         <div class="col-2 d-grid">
-                            <button type="button" class="btn btn-primary">Chọn ảnh</button>
+                            <button type="button" class="btn btn-primary" id="lfm" data-input="thumbnail"
+                                data-preview="holder">Chọn ảnh</button>
                         </div>
                         <div class="col-3">
-                            <img src="https://scontent.fhan14-3.fna.fbcdn.net/v/t39.30808-6/363842483_1399568380623959_6911278077162584183_n.jpg?_nc_cat=104&cb=99be929b-59f725be&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=b5uY0Xk7uLoAX_-VWk8&_nc_ht=scontent.fhan14-3.fna&oh=00_AfCXqun91v_Xxc9NT-W5DamP628hJlAbBbCZ4vm3C3ynWA&oe=64D7DA12"
-                                alt="">
+                            <div id="holder">
+                                @if (old('thumbnail'))
+                                    {
+                                    <img src="{{ old('thumbnail') }}" />
+                                    }
+                                @endif
+                            </div>
                         </div>
                     </div>
-
                 </div>
             </div>
             <div>
                 <button type="submit" class="btn btn-primary">Lưu lại</button>
-                <a href="{{ route('admin.users.index') }}" type="submit" class="btn btn-warning">Quay lại</a>
+                <a href="{{ route('admin.courses.index') }}" type="submit" class="btn btn-warning">Quay lại</a>
             </div>
         </div>
         @csrf
+
     </form>
 @endsection
 @section('stylesheets')
@@ -177,6 +200,11 @@
         img {
             max-width: 80%;
             height: auto;
+        }
+
+        .list_categories {
+            max-height: 250px;
+            overflow: auto
         }
     </style>
 @endsection

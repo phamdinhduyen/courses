@@ -42,7 +42,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'group_id' => $request->group_id,
-            'password' => $request->password
+            'password' => bcrypt($request->password)
         ]);
         return redirect()->route('admin.users.index')->with('msg', __('user::messages.create.success'));
     }
